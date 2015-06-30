@@ -1,0 +1,23 @@
+name: Shipcraft
+main: Evil_Code_ShipCraft.ShipCraft
+version: 1.0.1
+depend: [WorldEdit]
+
+commands:
+   setship:
+      description: Define a ship from a given selection
+      usage: /setship [type] [Facing Direction]
+      permission: evp.shipcraft.setship
+      permission-message: You do not have permission to do this.
+      
+   listships:
+      description: temp command
+      usage: /shipList
+      aliases: [slist, listship, shiplist,list-ship,ship-list]
+      permission: evp.shipcraft.setship
+      permission-message: You do not have permission to do this.
+
+permissions:
+   evp.shipcraft.setship:
+        description: Permission to define and save ShipSchematic files
+        default: op
