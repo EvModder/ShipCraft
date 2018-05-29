@@ -94,6 +94,7 @@ public final class ShipCraft extends JavaPlugin implements Listener{
 		}//------------------------------------------------------------------------------------------------------------------------------
 	}
 	
+	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]){
 		if(sender instanceof Player == false){
 			sender.sendMessage("This command can only be run by in-game players");
