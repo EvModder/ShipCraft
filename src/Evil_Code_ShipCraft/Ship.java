@@ -2,7 +2,6 @@ package Evil_Code_ShipCraft;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,9 +9,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.Directional;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.material.Directional;
-import org.bukkit.material.MaterialData;
 
 public class Ship {
 	final static int MAX_STACK_DEPTH = 300;
@@ -145,14 +143,13 @@ public class Ship {
 			
 			newBlock.setType(oldBlock.getType());
 			//
-			newBlock.setData(oldBlock.getRawData());
-			MaterialData oldData = oldBlock.getData();
-			if(oldData instanceof MaterialData) newBlock.getState().setData(oldData);
+			newBlock.setBlockData(oldBlock.getBlockData());
+			newBlock.getState().setData(oldBlock.getData());
 			//
-			if(oldBlock.getData() instanceof Directional){
-				Directional ddata = (Directional) oldBlock.getData();
-				ddata.setFacingDirection(getNewDirection(ddata.getFacing(), move.degreeAngle));
-				newBlock.getState().setData((MaterialData) ddata);
+			if(oldBlock.getBlockData() instanceof Directional){
+				Directional ddata = (Directional) oldBlock.getBlockData();
+				ddata.setFacing(getNewDirection(ddata.getFacing(), move.degreeAngle));
+				newBlock.getState().setBlockData(ddata);
 				newBlock.getState().update();
 			}
 			if(oldBlock instanceof InventoryHolder){
@@ -218,14 +215,13 @@ public class Ship {
 			
 			newBlock.setType(oldBlock.getType());
 			//
-			newBlock.setData(oldBlock.getRawData());
-			MaterialData oldData = oldBlock.getData();
-			if(oldData instanceof MaterialData) newBlock.getState().setData(oldData);
+			newBlock.setBlockData(oldBlock.getBlockData());
+			newBlock.getState().setData(oldBlock.getData());
 			//
 			if(oldBlock instanceof Directional){
 				Directional ddata = (Directional) oldBlock.getData();
-				ddata.setFacingDirection(getNewDirection(ddata.getFacing(), move.degreeAngle));
-				newBlock.getState().setData((MaterialData) ddata);
+				ddata.setFacing(getNewDirection(ddata.getFacing(), move.degreeAngle));
+				newBlock.getState().setBlockData(ddata);
 			}
 			if(oldBlock instanceof InventoryHolder){
 //				InventoryHolder ih = (InventoryHolder) oldBlock;

@@ -1,6 +1,7 @@
 name: Shipcraft
 main: Evil_Code_ShipCraft.ShipCraft
 version: 1.0.1
+api-version: 1.13
 depend: [WorldEdit]
 
 commands:

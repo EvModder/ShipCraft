@@ -93,8 +93,7 @@ public final class ShipCraft extends JavaPlugin implements Listener{
 			getLogger().info("Loaded "+ ships.size() +" ships from the file!");
 		}//------------------------------------------------------------------------------------------------------------------------------
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String args[]){
 		if(sender instanceof Player == false){
 			sender.sendMessage("This command can only be run by in-game players");
@@ -112,7 +111,7 @@ public final class ShipCraft extends JavaPlugin implements Listener{
 			Player p = (Player) sender;
 			WorldEdit pl = WorldEdit.getInstance();
 			LocalSession pSession;
-			pSession = pl.getSession(p.getName());
+			pSession = pl.getSessionManager().findByName(p.getName());
 			if(pSession.isSelectionDefined(pSession.getSelectionWorld()) == false){
 				p.sendMessage("Please set a //pos1 and //pos2 first.");
 				return true;
@@ -275,10 +274,10 @@ public final class ShipCraft extends JavaPlugin implements Listener{
 			else if(b.getRelative(BlockFace.EAST ).getType() == controlBlockType) return BlockFace.EAST;
 			else if(b.getRelative(BlockFace.WEST ).getType() == controlBlockType) return BlockFace.WEST;
 		}
-		else if(b.getType() == Material.STONE_PLATE || b.getType() == Material.WOOD_PLATE){
+		else if(b.getType() == Material.STONE_PRESSURE_PLATE){
 			if(b.getRelative(BlockFace.DOWN).getType() == controlBlockType) return BlockFace.DOWN;
 		}
-		else if(b.getType() == Material.DIODE_BLOCK_OFF){
+		else if(b.getType() == Material.REPEATER){
 			getLogger().info("diode here?");
 		}
 		return null;
@@ -292,7 +291,7 @@ public final class ShipCraft extends JavaPlugin implements Listener{
 		if(type == Material.REDSTONE_WIRE){
 			speed = 16 - signalStrength;
 		}
-		else if(type == Material.REDSTONE_COMPARATOR_OFF || type == Material.DIODE_BLOCK_OFF){
+		else if(type == Material.COMPARATOR){
 			speed = 15 - signalStrength;
 			// Check to see whether to rotate the ship
 			getLogger().info("powered diode/comparator facing controlblock, speed is "+speed);
@@ -303,16 +302,16 @@ public final class ShipCraft extends JavaPlugin implements Listener{
 				move.degreeAngle = angle2 - angle1;
 				
 				getLogger().info("Turning angle set to "+move.degreeAngle);
-				if(move.degreeAngle == 0 && type == Material.DIODE_BLOCK_OFF) speed = 3;
+				if(move.degreeAngle == 0 && type == Material.REPEATER) speed = 3;
 			}
 		}
 		else if(type == Material.STONE_BUTTON) speed = 4;
-		else if(type == Material.WOOD_BUTTON) speed = 6;
+		else if(type == Material.OAK_BUTTON) speed = 6;
 		
 		else if(type == Material.LEVER) speed = 3;
-		else if(type == Material.REDSTONE_TORCH_OFF) speed = 2;
+		else if(type == Material.REDSTONE_TORCH) speed = 2;
 		
-		else if((type == Material.WOOD_PLATE || type == Material.STONE_PLATE)) speed = 1;
+		else if((type == Material.OAK_PRESSURE_PLATE || type == Material.STONE_PRESSURE_PLATE)) speed = 1;
 		
 		else return null;
 		
@@ -534,10 +533,10 @@ public final class ShipCraft extends JavaPlugin implements Listener{
 	private boolean tooManyCollisions(List<Location> collisions, int shipSize){
 		if(collisions.size() > shipSize/20) return true;;
 		
-		for(Location loc : collisions){
+		for(Location loc : collisions){//TODO: other unmovable blocks
 			if(loc.getBlock() == null ||
-			   loc.getBlock().getType() == Material.BEDROCK || loc.getBlock().getType() == Material.ENDER_PORTAL_FRAME ||
-			   loc.getBlock().getType() == Material.ENDER_PORTAL|| loc.getBlock().getType() == Material.PORTAL)
+			   loc.getBlock().getType() == Material.BEDROCK || loc.getBlock().getType() == Material.END_PORTAL_FRAME ||
+			   loc.getBlock().getType() == Material.END_PORTAL|| loc.getBlock().getType() == Material.NETHER_PORTAL)
 			{
 				return true;
 			}
